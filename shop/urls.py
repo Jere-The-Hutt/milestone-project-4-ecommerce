@@ -11,4 +11,14 @@ urlpatterns = [
         views.product_detail,
         name='product_detail'
     ),
+    path(
+        'custom-request/',
+        views.custom_package_request,
+        name='custom_package_request'
+        ),
+    path(
+        'custom-request/thanks/',
+        views.custom_request_thanks,
+        name='custom_request_thanks'
+        ),
 ]
