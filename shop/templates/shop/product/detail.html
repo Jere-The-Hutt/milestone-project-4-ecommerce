@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    {{ product.name }}
+{{ product.name }}
 {% endblock %}
 
 {% block content %}
@@ -12,5 +12,8 @@
     <h1>{{ product.name }}</h1>
     <p class="price">${{ product.price }}</p>
     {{ product.description|linebreaks }}
+    <a href="{% url 'orders:order_create' product.id %}" class="btn btn-primary">
+        Buy Now
+    </a>
 </div>
 {% endblock %}
