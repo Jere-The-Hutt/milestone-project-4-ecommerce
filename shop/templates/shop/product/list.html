@@ -18,5 +18,13 @@
         ${{ product.price }}
     </div>
     {% endfor %}
+    <div class="item">
+        <a href="{% url 'shop:custom_package_request' %}">
+            <img src="{% static 'img/no_image.png' %}" alt="Custom Package Request">
+        </a>
+        <a href="{% url 'shop:custom_package_request' %}">Request a Custom Package</a>
+        <br>
+        <span>Custom pricing</span>
+    </div>
 </div>
 {% endblock %}

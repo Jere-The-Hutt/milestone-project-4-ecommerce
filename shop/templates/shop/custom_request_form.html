@@ -1,0 +1,20 @@
+{% extends "shop/base.html" %}
+
+{% block title %}
+    Request a Custom Package
+{% endblock %}
+
+{% block content %}
+<h1>Request a Custom Package</h1>
+
+<div class="order-info">
+    <h3>Your Request Details</h3>
+    <p>Please fill out the form below with your project needs.</p>
+</div>
+
+<form method="post" class="order-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p><input type="submit" value="Send Request"></p>
+</form>
+{% endblock %}
