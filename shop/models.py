@@ -34,7 +34,7 @@ class CustomPackageRequest(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
     phone = models.CharField(max_length=20, blank=True)
-    message = models.TextField(help_text="Describe your custom project needs")
+    message = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
