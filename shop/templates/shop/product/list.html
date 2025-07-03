@@ -11,7 +11,7 @@
     {% for product in products %}
     <div class="item">
         <a href="{{ product.get_absolute_url }}">
-            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/no_image.png' %}{% endif %}">
         </a>
         <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
         <br>
@@ -20,7 +20,7 @@
     {% endfor %}
     <div class="item">
         <a href="{% url 'shop:custom_package_request' %}">
-            <img src="{% static 'img/no_image.png' %}" alt="Custom Package Request">
+            <img src="{% static 'images/no_image.png' %}" alt="Custom Package Request">
         </a>
         <a href="{% url 'shop:custom_package_request' %}">Request a Custom Package</a>
         <br>
