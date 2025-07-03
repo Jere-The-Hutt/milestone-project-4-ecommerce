@@ -49,8 +49,6 @@ INSTALLED_APPS = [
 ]
 
 
-SITE_ID = 1
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -79,6 +77,16 @@ TEMPLATES = [
         },
     },
 ]
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # default
+    'allauth.account.auth_backends.AuthenticationBackend',  # allauth backend
+]
+
+
+SITE_ID = 1
+
 
 WSGI_APPLICATION = 'myshop.wsgi.application'
 
@@ -143,12 +151,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',  # default
-    'allauth.account.auth_backends.AuthenticationBackend',  # allauth backend
-]
-
-
 # Email backend for development (prints emails to console)
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -157,9 +159,12 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # Options: "mandatory", "optional", "n
 ACCOUNT_LOGIN_METHODS = {"email", "username"}
 ACCOUNT_SIGNUP_FIELDS = [
     "email*",
+    "email2*"
     "username*",
     "password1*",
     "password2*",
 ]
-LOGIN_REDIRECT_URL = '/'  # Or change to your desired URL after login
+
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
