@@ -5,6 +5,13 @@
     Products
 {% endblock %}
 
+{% block hero_buttons %}
+    {% for product in products %}
+        <a href="#{{ product.slug }}" class="btn btn-primary mx-2 my-1">{{ product.name }}</a>
+    {% endfor %}
+    <a href="#custom-request" class="btn btn-outline-secondary mx-2 my-1">Custom Package</a>
+{% endblock %}
+
 {% block content %}
 <div id="main" class="product-list">
     <h1>Products</h1>

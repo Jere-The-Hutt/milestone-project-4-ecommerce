@@ -2,13 +2,12 @@
 {% load static %}
 
 {% block title %}
-{{ product.name }}
+    {{ product.name }}
 {% endblock %}
 
 {% block content %}
 <div class="product-detail">
-    <img src="{% if product.image %}{{ product.image.url }}{% else %}
-    {% static 'images/no_image.png' %}{% endif %}">
+    <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/no_image.png' %}{% endif %}" alt="{{ product.name }}">
     <h1>{{ product.name }}</h1>
     <p class="price">${{ product.price }}</p>
     {{ product.description|linebreaks }}
