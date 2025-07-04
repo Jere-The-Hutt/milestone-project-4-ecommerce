@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto text-center">
+            <h1 class="mb-4">About Our Web Development Services</h1>
+            <p class="lead">
+                Welcome to our platform! We offer professional, modern, and affordable web development packages tailored to your needs.
+                Whether you're a small business, entrepreneur, or launching your next big idea, we have a solution for you.
+            </p>
+            <hr class="my-4">
+            <p>
+                With years of experience and a passion for clean code and great design, we deliver fast, responsive, and user-friendly websites.
+                Our services range from simple one-page sites to fully functional ecommerce platforms.
+            </p>
+            <p>
+                Choose a package that suits you, and we'll take care of the rest – from deployment to support.
+            </p>
+            <a href="{% url 'shop:product_list' %}" class="btn btn-primary mt-4">View Packages</a>
+        </div>
+    </div>
+</div>
+
+<!-- Pass hero image context to the template -->
+<script>
+    // This sets the hero image for this page
+    // You can do this in the view instead if you prefer
+</script>
+{% endblock %}

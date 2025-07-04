@@ -28,7 +28,7 @@ def product_detail(request, id, slug):
         'product': product,
         'hero_image': hero_image,
         'hero_image_is_static': False,
-        'show_hero_text': False,  # Disable hero text on product detail pages
+        'show_hero_text': False,
     }
 
     return render(request, 'shop/product/detail.html', context)
@@ -47,11 +47,11 @@ def custom_package_request(request):
         'shop/custom_request_form.html',
         {
             'form': form,
-            'hero_image': 'images/becomes-co-7oBmQz4bfrQ-unsplash.jpg',
+            'hero_image': 'images/diego-ph-fIq0tET6llw-unsplash.jpg',
             'hero_image_is_static': True,
             'hero_title': 'Custom Website Request',
             'hero_subtitle': "Let's build a website for your needs.",
-            'show_hero_text': True,
+            'show_hero_text': False,
         }
     )
 

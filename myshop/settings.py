@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     'orders.apps.OrdersConfig',
     'shop.apps.ShopConfig',
+    'pages',
 ]
 
 

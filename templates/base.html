@@ -25,6 +25,12 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarAuth">
                 <!-- User auth dropdown -->
                 <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}"
+                            href="{% url 'pages:about' %}">
+                            About
+                        </a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-black" href="#" id="user-options" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -50,19 +56,20 @@
 
     <section class="hero-image position-relative">
         {% if hero_image %}
-            {% if hero_image_is_static %}
-                <img src="{% static hero_image %}" alt="Hero image" class="img-fluid w-100" />
-            {% else %}
-                <img src="{{ hero_image }}" alt="Hero image" class="img-fluid w-100" />
-            {% endif %}
+        {% if hero_image_is_static %}
+        <img src="{% static hero_image %}" alt="Hero image" class="img-fluid w-100" />
         {% else %}
-            <img src="{% static 'images/default-hero.jpg' %}" alt="Default Hero" class="img-fluid w-100" />
+        <img src="{{ hero_image }}" alt="Hero image" class="img-fluid w-100" />
+        {% endif %}
+        {% else %}
+        <img src="{% static 'images/becomes-co-7oBmQz4bfrQ-unsplash.jpg' %}" alt="Default Hero"
+            class="img-fluid w-100" />
         {% endif %}
 
         {% if show_hero_text %}
         <div class="hero-text">
             <h1>{{ hero_title|default:"Welcome to My Shop" }}</h1>
-            <p>{{ hero_subtitle|default:"Your tagline or call to action" }}</p>
+            <p>{{ hero_subtitle|default:"Let's create something great" }}</p>
         </div>
         {% endif %}
     </section>
@@ -84,7 +91,8 @@
                     <h6>Quick Links</h6>
                     <ul class="list-unstyled">
                         <li><a href="/" class="text-light text-decoration-none">Home</a></li>
-                        <li><a href="{% url 'shop:custom_package_request' %}" class="text-light text-decoration-none">Custom Package</a></li>
+                        <li><a href="{% url 'shop:custom_package_request' %}"
+                                class="text-light text-decoration-none">Custom Package</a></li>
                         <li><a href="#" class="text-light text-decoration-none">Contact</a></li>
                         <li><a href="#" class="text-light text-decoration-none">About</a></li>
                     </ul>
