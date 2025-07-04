@@ -5,33 +5,77 @@
     Products
 {% endblock %}
 
-{% block hero_buttons %}
-    {% for product in products %}
-        <a href="#{{ product.slug }}" class="btn btn-primary mx-2 my-1">{{ product.name }}</a>
-    {% endfor %}
-    <a href="#custom-request" class="btn btn-outline-secondary mx-2 my-1">Custom Package</a>
-{% endblock %}
-
 {% block content %}
 <div id="main" class="product-list">
-    <h1>Products</h1>
+    <h1 class="mb-4">Products</h1>
+    
     {% for product in products %}
-    <div class="item">
-        <a href="{{ product.get_absolute_url }}">
-            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/no_image.png' %}{% endif %}">
-        </a>
-        <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
-        <br>
-        ${{ product.price }}
+    <div class="card mb-4 shadow-sm">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <a href="{{ product.get_absolute_url }}">
+                    <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/no_image.png' %}{% endif %}" 
+                         class="img-fluid rounded-start h-100 object-fit-cover" 
+                         alt="{{ product.name }}"
+                         style="min-height: 200px;">
+                </a>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body h-100 d-flex flex-column">
+                    <h5 class="card-title">
+                        <a href="{{ product.get_absolute_url }}" class="text-decoration-none">
+                            {{ product.name }}
+                        </a>
+                    </h5>
+                    <p class="card-text flex-grow-1">
+                        {% if product.description %}
+                            {{ product.description|truncatewords:30 }}
+                        {% else %}
+                            No description available.
+                        {% endif %}
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center mt-auto">
+                        <span class="h4 text-primary mb-0">${{ product.price }}</span>
+                        <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     {% endfor %}
-    <div class="item">
-        <a href="{% url 'shop:custom_package_request' %}">
-            <img src="{% static 'images/no_image.png' %}" alt="Custom Package Request">
-        </a>
-        <a href="{% url 'shop:custom_package_request' %}">Request a Custom Package</a>
-        <br>
-        <span>Custom pricing</span>
+    
+    <!-- Custom Package Request Card -->
+    <div class="card mb-4 shadow-sm border-secondary">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <a href="{% url 'shop:custom_package_request' %}">
+                    <img src="{% static 'images/no_image.png' %}" 
+                         class="img-fluid rounded-start h-100 object-fit-cover" 
+                         alt="Custom Package Request"
+                         style="min-height: 200px;">
+                </a>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body h-100 d-flex flex-column">
+                    <h5 class="card-title">
+                        <a href="{% url 'shop:custom_package_request' %}" class="text-decoration-none">
+                            Request a Custom Package
+                        </a>
+                    </h5>
+                    <p class="card-text flex-grow-1">
+                        Need something specific? Let us create a custom website package tailored to your unique requirements and business needs.
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center mt-auto">
+                        <span class="h4 text-success mb-0">Custom pricing</span>
+                        <a href="{% url 'shop:custom_package_request' %}" class="btn btn-outline-success">
+                            Get Quote
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
