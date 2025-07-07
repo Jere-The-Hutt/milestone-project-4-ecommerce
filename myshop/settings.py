@@ -53,7 +53,6 @@ INSTALLED_APPS = [
 
     'cloudinary',
     'cloudinary_storage',
-    'django.contrib.staticfiles',
 
     'orders.apps.OrdersConfig',
     'shop.apps.ShopConfig',
