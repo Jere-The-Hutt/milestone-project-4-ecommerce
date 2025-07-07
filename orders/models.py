@@ -5,9 +5,9 @@ from shop.models import Product
 
 class Order(models.Model):
     user = models.ForeignKey(
-        User, 
-        on_delete=models.CASCADE, 
-        null=True, 
+        User,
+        on_delete=models.CASCADE,
+        null=True,
         blank=True,
         related_name='orders'
     )

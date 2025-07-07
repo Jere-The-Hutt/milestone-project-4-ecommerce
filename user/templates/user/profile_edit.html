@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block hero %}
+<!-- Empty block to hide hero image -->
+{% endblock %}
+
+{% block content %}
+<h1>Edit Profile</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <h3>Personal Information</h3>
+    <p>
+        <label for="{{ user_form.first_name.id_for_label }}">First Name:</label><br>
+        {{ user_form.first_name }}
+    </p>
+    <p>
+        <label for="{{ user_form.last_name.id_for_label }}">Last Name:</label><br>
+        {{ user_form.last_name }}
+    </p>
+    <p>
+        <label for="{{ user_form.email.id_for_label }}">Email:</label><br>
+        {{ user_form.email }}
+    </p>
+    <p>
+        <label for="{{ profile_form.phone.id_for_label }}">Phone:</label><br>
+        {{ profile_form.phone }}
+    </p>
+    <p>
+        <label for="{{ profile_form.company.id_for_label }}">Company:</label><br>
+        {{ profile_form.company }}
+    </p>
+    <p>
+        <label for="{{ profile_form.website.id_for_label }}">Website:</label><br>
+        {{ profile_form.website }}
+    </p>
+    <p>
+        <label for="{{ profile_form.bio.id_for_label }}">Bio:</label><br>
+        {{ profile_form.bio }}
+    </p>
+    <p>
+        <label for="{{ profile_form.profile_image.id_for_label }}">Profile Image:</label><br>
+        {{ profile_form.profile_image }}
+    </p>
+    
+    <p>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="{% url 'account_profile' %}">Cancel</a>
+    </p>
+</form>
+{% endblock %}

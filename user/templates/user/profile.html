@@ -2,7 +2,42 @@
 
 {% block title %}Profile{% endblock %}
 
+{% block hero %}
+<!-- Empty block to hide hero image -->
+{% endblock %}
+
 {% block content %}
-<h1>Welcome, {{ user.username }}</h1>
-<p>Email: {{ user.email }}</p>
+<div style="display: flex; justify-content: space-between; align-items: flex-start;">
+    <div style="flex: 1;">
+        <h1>Welcome, {{ user.username }}</h1>
+
+        <div class="mt-4">
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Name:</strong> {{ user.get_full_name|default:"Not provided" }}</p>
+            <p><strong>Phone:</strong> {{ user.profile.phone|default:"Not provided" }}</p>
+            <p><strong>Company:</strong> {{ user.profile.company|default:"Not provided" }}</p>
+            <p><strong>Website:</strong>
+                {% if user.profile.website %}
+                <a href="{{ user.profile.website }}" target="_blank">{{ user.profile.website }}</a>
+                {% else %}
+                Not provided
+                {% endif %}
+            </p>
+            <p><strong>Bio:</strong> {{ user.profile.bio|default:"No bio provided"|linebreaks }}</p>
+
+            <a href="{% url 'profile_edit' %}" class="btn btn-primary">Edit Profile</a>
+        </div>
+    </div>
+    
+    <div style="margin-left: 20px;">
+        {% if user.profile.profile_image %}
+        <img src="{{ user.profile.profile_image.url }}" alt="Profile Picture"
+            style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
+        {% else %}
+        <div style="width: 150px; height: 150px; border-radius: 50%; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #666;">
+            <span>No Photo</span>
+        </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
