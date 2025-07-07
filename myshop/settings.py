@@ -9,7 +9,10 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
+import dj_database_url
+if os.path.isfile('env.py'):
+    import env
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,12 +23,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-hv32v)$6#k#c0(l(8z3@m@@il7%nvyzpellp$@zdx1@7&ps-!^'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',  # Local preview
+    'localhost',  # Listen for Stripe webhooks
+    'milestone-project-4-ecommerce-479bb413016e.herokuapp.com',  # Heroku app
+]
 
 
 # Application definition
@@ -95,12 +102,17 @@ WSGI_APPLICATION = 'myshop.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if 'DATABASE_URL' in os.environ:
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -143,6 +155,8 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 
 # Media files (User uploads)
 
@@ -164,7 +178,7 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # Options: "mandatory", "optional", "n
 ACCOUNT_LOGIN_METHODS = {"email", "username"}
 ACCOUNT_SIGNUP_FIELDS = [
     "email*",
-    "email2*"
+    "email2*",
     "username*",
     "password1*",
     "password2*",
