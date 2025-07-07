@@ -12,8 +12,9 @@
     <link href="{% static 'css/base.css' %}" rel="stylesheet">
 </head>
 
-<body class="d-flex flex-column min-vh-100">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<body class="d-flex flex-column min-vh-100 pt-4">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container">
             <a class="navbar-brand" href="/">WebDev<span class="blue-4">4</span>U</a>
 
@@ -62,19 +63,19 @@
         <img src="{{ hero_image }}" alt="Hero image" class="img-fluid w-100" />
         {% endif %}
         {% else %}
-        <img src="{% static 'images/becomes-co-7oBmQz4bfrQ-unsplash.jpg' %}" alt="Default Hero"
+        <img src="{% static 'images/danae-paparis-cj6Am4O7YJs-unsplash.jpg' %}" alt="Default Hero"
             class="img-fluid w-100" />
         {% endif %}
 
         {% if show_hero_text %}
         <div class="hero-text">
             <h1>{{ hero_title|default:"Welcome to My Shop" }}</h1>
-            <p>{{ hero_subtitle|default:"Let's create something great" }}</p>
+            <p>{{ hero_subtitle|default:"Let's create something great!" }}</p>
         </div>
         {% endif %}
     </section>
 
-    <div id="content" class="container mt-4 flex-grow-1">
+    <div id="content" class="container mt-4 p-0 flex-grow-1">
         {% block content %}
         {% endblock %}
     </div>
@@ -85,20 +86,20 @@
             <div class="row">
                 <div class="col-md-4 mb-3">
                     <h5>WebDev<span class="text-primary">4</span>U</h5>
-                    <p class="text-muted">Creating beautiful websites for your business needs.</p>
+                    <p class="text-light">Creating beautiful websites for your business needs.</p>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <h6>Quick Links</h6>
+                    <h6 class="text-uppercase">Quick Links</h6>
                     <ul class="list-unstyled">
                         <li><a href="/" class="text-light text-decoration-none">Home</a></li>
                         <li><a href="{% url 'shop:custom_package_request' %}"
                                 class="text-light text-decoration-none">Custom Package</a></li>
-                        <li><a href="#" class="text-light text-decoration-none">Contact</a></li>
-                        <li><a href="#" class="text-light text-decoration-none">About</a></li>
+                        <li><a href="{% url 'pages:about' %}" 
+                                class="text-light text-decoration-none">About</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <h6>Follow Us</h6>
+                    <h6 class="text-uppercase">Follow Us</h6>
                     <div class="d-flex gap-3">
                         <a href="https://www.facebook.com/" class="text-light fs-4" aria-label="Facebook">
                             <i class="fa-brands fa-facebook"></i>

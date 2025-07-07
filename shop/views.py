@@ -10,10 +10,8 @@ def product_list(request):
         'shop/product/list.html',
         {
             'products': products,
-            'hero_image': 'images/sigmund-Im_cQ6hQo10-unsplash.jpg',
+            'hero_image': 'images/danae-paparis-cj6Am4O7YJs-unsplash.jpg',
             'hero_image_is_static': True,
-            'hero_title': "Welcome to My Shop",
-            'hero_subtitle': "Your tagline or call to action",
             'show_hero_text': True,
         }
     )
