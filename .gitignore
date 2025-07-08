@@ -1,37 +1,29 @@
-# Python
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-*.egg
-*.egg-info/
+
+# Virtual environments
 env/
 venv/
-*.env
-*.sqlite3
 
-# Django
-db.sqlite3
+# Environment variables file
+.env
+env.py
+
+# Django stuff:
+*.sqlite3
 staticfiles/
 media/
 *.log
 
-# Django Migrations (optional)
+# Migrations
 **/migrations/*.py
 !**/migrations/__init__.py
 
-# Node (if using frontend tools like Tailwind)
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# VS Code / IDEs
+# IDEs
 .vscode/
 .idea/
 
 # OS files
 .DS_Store
 Thumbs.db
-
-# Build output
-dist/
-build/
