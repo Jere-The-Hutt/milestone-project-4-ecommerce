@@ -294,6 +294,12 @@ ul.errorlist {
     color: #dc1616;
 }
 
+/* Makes the placeholder look muted */
+select:invalid,
+select option[value=""] {
+    color: #6c757d;
+}
+
 /* --------------------------------------------
    Languages Menu
 -------------------------------------------- */

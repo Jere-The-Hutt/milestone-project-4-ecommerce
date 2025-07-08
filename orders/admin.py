@@ -9,9 +9,10 @@ class OrderAdmin(admin.ModelAdmin):
         'first_name',
         'last_name',
         'email',
-        'address',
-        'postal_code',
-        'city',
+        'billing_address',
+        'billing_postal_code',
+        'billing_city',
+        'billing_country',
         'paid',
         'created',
         'updated'
