@@ -3,6 +3,8 @@
 {% block title %}Payment successful{% endblock %}
 
 {% block content %}
-    <h1>Your payment was successful</h1>
+    <h1>Thank you!</h1>
     <p>Your payment has been processed successfully.</p>
+    <strong>{{ order.id }}</strong>.</p>
+    <p><a class="btn btn-primary" href="{% url 'shop:product_list' %}">Back to the home page</a></p>
 {% endblock %}
