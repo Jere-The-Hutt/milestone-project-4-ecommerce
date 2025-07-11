@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
-from django_countries.fields import CountryField
 from shop.models import Product
 
 
@@ -21,14 +20,7 @@ class Order(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
-    billing_address = models.CharField(max_length=250, blank=True)
-    billing_postal_code = models.CharField(max_length=20, blank=True)
-    billing_city = models.CharField(max_length=100, blank=True)
-    billing_country = CountryField(
-        blank=True,
-        null=True,
-        blank_label='Select billing country'
-    )
+    phone_number = models.CharField(max_length=20, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
@@ -73,13 +65,3 @@ class Order(models.Model):
     @property
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
-
-    @property
-    def get_billing_address(self):
-        """Return formatted billing address for invoices"""
-        parts = [
-            self.billing_address,
-            self.billing_city,
-            self.billing_postal_code,
-            self.billing_country]
-        return ', '.join(filter(None, parts))
