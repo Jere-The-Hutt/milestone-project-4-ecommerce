@@ -10,7 +10,7 @@ def product_list(request):
         'shop/product/list.html',
         {
             'products': products,
-            'hero_image': 'images/danae-paparis-cj6Am4O7YJs-unsplash.jpg',
+            'hero_image': 'images/rishi--fiCYNV51m4-unsplash.jpg',
             'hero_image_is_static': True,
             'show_hero_text': True,
         }

@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'payment.apps.PaymentConfig',
     'shop.apps.ShopConfig',
     'pages',
+    'crispy_forms',
 ]
 
 
