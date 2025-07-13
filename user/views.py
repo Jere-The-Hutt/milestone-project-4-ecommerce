@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import UserForm, UserProfileForm
 from .models import UserProfile
+from orders.models import Order
 
 
 @login_required
@@ -12,6 +13,8 @@ def profile_view(request):
         profile = request.user.profile
     except UserProfile.DoesNotExist:
         profile = UserProfile.objects.create(user=request.user)
+
+    orders = Order.objects.filter(user=request.user).order_by('-created')
 
     context = {
         'user': request.user,

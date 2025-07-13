@@ -2,8 +2,10 @@ from django.shortcuts import redirect, render, get_object_or_404
 from .forms import OrderCreateForm
 from shop.models import Product
 from .tasks import order_created
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def order_create(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
@@ -12,6 +14,7 @@ def order_create(request, product_id):
         if form.is_valid():
             order = form.save(commit=False)
             order.product = product
+            order.user = request.user
             order.save()
             order_created.delay(order.id)
             # set the order in the session

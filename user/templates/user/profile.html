@@ -27,14 +27,52 @@
 
             <a href="{% url 'profile_edit' %}" class="btn btn-primary">Edit Profile</a>
         </div>
+        <hr class="my-5">
+
+        <h2>Your Orders</h2>
+
+        {% if orders %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Order #</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>{{ order.order_number }}</td>
+                        <td>{{ order.date|date:"Y-m-d" }}</td>
+                        <td>{{ order.status|capfirst }}</td>
+                        <td>€{{ order.grand_total }}</td>
+                        <td>
+                            <a href="{% url 'order_history' order.order_number %}"
+                                class="btn btn-sm btn-outline-primary">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p>You haven't placed any orders yet.</p>
+        {% endif %}
     </div>
-    
+
     <div style="margin-left: 20px;">
         {% if user.profile.profile_image %}
         <img src="{{ user.profile.profile_image.url }}" alt="Profile Picture"
             style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
         {% else %}
-        <div style="width: 150px; height: 150px; border-radius: 50%; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #666;">
+        <div
+            style="width: 150px; height: 150px; border-radius: 50%; background-color: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #666;">
             <span>No Photo</span>
         </div>
         {% endif %}
