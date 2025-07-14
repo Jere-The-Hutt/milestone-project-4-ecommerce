@@ -19,6 +19,7 @@ def profile_view(request):
     context = {
         'user': request.user,
         'profile': profile,
+        'orders': orders,
     }
     return render(request, 'user/profile.html', context)
 
