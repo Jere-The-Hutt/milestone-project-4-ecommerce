@@ -7,10 +7,10 @@
 
 {% block content %}
 <div id="main" class="product-list">
-    <h1 class="mb-4">Services</h1>
+    <h1 class="mb-4 blue-4 text-uppercase text-center">Services</h1>
     
     {% for product in products %}
-    <div class="card mb-4 shadow-sm">
+    <div class="card mb-4 shadow-sm mx-lg-5">
         <div class="row g-0">
             <div class="col-md-4">
                 <a href="{{ product.get_absolute_url }}">
@@ -36,7 +36,7 @@
                     </p>
                     <div class="d-flex justify-content-between align-items-center mt-auto">
                         <span class="h4 text-success mb-0">${{ product.price }}</span>
-                        <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary">
+                        <a href="{{ product.get_absolute_url }}" class="btn btn-primary">
                             View Details
                         </a>
                     </div>
@@ -47,7 +47,7 @@
     {% endfor %}
     
     <!-- Custom Package Request Card -->
-    <div class="card mb-4 shadow-sm">
+    <div class="card mb-4 shadow-sm mx-lg-5">
         <div class="row g-0">
             <div class="col-md-4">
                 <a href="{% url 'shop:custom_package_request' %}">
@@ -69,7 +69,7 @@
                     </p>
                     <div class="d-flex justify-content-between align-items-center mt-auto">
                         <span class="h4 text-success mb-0">Custom pricing</span>
-                        <a href="{% url 'shop:custom_package_request' %}" class="btn btn-outline-success">
+                        <a href="{% url 'shop:custom_package_request' %}" class="btn btn-success">
                             Get Quote
                         </a>
                     </div>
