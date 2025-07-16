@@ -28,7 +28,7 @@ def payment_process(request):
             'cancel_url': cancel_url,
             'line_items': [{
                 'price_data': {
-                    'currency': 'usd',
+                    'currency': 'eur',
                     'product_data': {
                         'name': product.name,
                     },
