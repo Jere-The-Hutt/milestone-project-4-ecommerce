@@ -58,7 +58,16 @@ class OrderAdmin(admin.ModelAdmin):
         'paid',
         order_payment,
         'created',
-        'updated'
+        'updated',
+        order_pdf,
     ]
     actions = [export_to_csv]
     list_filter = ['paid', 'created', 'updated']
+
+
+def order_pdf(obj):
+    url = reverse('orders:admin_order_pdf', args=[obj.id])
+    return mark_safe(f'<a href="{url}">PDF</a>')
+
+
+order_pdf.short_description = 'Invoice'
