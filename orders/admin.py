@@ -1,9 +1,18 @@
 from django.contrib import admin
 from .models import Order
 from django.utils.safestring import mark_safe
+from django.urls import reverse
 import csv
 import datetime
 from django.http import HttpResponse
+
+
+def order_pdf(obj):
+    url = reverse('orders:admin_order_pdf', args=[obj.id])
+    return mark_safe(f'<a href="{url}">PDF</a>')
+
+
+order_pdf.short_description = 'Invoice'
 
 
 def order_payment(obj):
@@ -47,6 +56,11 @@ def export_to_csv(modeladmin, request, queryset):
 export_to_csv.short_description = 'Export to CSV'
 
 
+def order_detail(obj):
+    url = reverse('orders:admin_order_detail', args=[obj.id])
+    return mark_safe(f'<a href="{url}">View</a>')
+
+
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = [
@@ -59,15 +73,8 @@ class OrderAdmin(admin.ModelAdmin):
         order_payment,
         'created',
         'updated',
+        order_detail,
         order_pdf,
     ]
     actions = [export_to_csv]
     list_filter = ['paid', 'created', 'updated']
-
-
-def order_pdf(obj):
-    url = reverse('orders:admin_order_pdf', args=[obj.id])
-    return mark_safe(f'<a href="{url}">PDF</a>')
-
-
-order_pdf.short_description = 'Invoice'

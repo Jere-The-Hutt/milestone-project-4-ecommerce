@@ -42,6 +42,14 @@ def order_history(request, order_id):
 
 
 @staff_member_required
+def admin_order_detail(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    return render(
+        request, 'admin/orders/order/detail.html', {'order': order}
+        )
+
+
+@staff_member_required
 def admin_order_pdf(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     html = render_to_string('orders/order/pdf.html', {'order': order})
