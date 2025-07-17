@@ -22,7 +22,10 @@ def payment_completed(order_id):
         subject = f'My Shop - Invoice no. {order.id}'
         message = 'Please, find attached the invoice for your recent purchase.'
         email = EmailMessage(
-            subject, message, settings.DEFAULT_FROM_EMAIL, [order.email]
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [order.email]
         )
 
         # generate PDF
