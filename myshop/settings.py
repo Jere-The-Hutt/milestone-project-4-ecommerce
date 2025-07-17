@@ -244,6 +244,9 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 
+# CELERY
+CELERY_BROKER_URL = 'amqp://guest:guest@rabbitmq:5672//'
+
 # Run Celery tasks eagerly during development
 if DEBUG:
     CELERY_TASK_ALWAYS_EAGER = True
