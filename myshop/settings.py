@@ -242,3 +242,8 @@ LOGGING = {
 # Crispy Forms Settings
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+
+# Run Celery tasks eagerly during development
+if DEBUG:
+    CELERY_TASK_ALWAYS_EAGER = True
