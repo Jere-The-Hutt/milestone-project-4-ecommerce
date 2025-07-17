@@ -126,13 +126,57 @@
                     <p class="text-light mb-0">&copy; 2025 WebDev4U. All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-md-end">
-                    <a href="#" class="text-light text-decoration-none me-3">Privacy Policy</a>
+                    <a href="#" class="text-light text-decoration-none me-3" data-bs-toggle="modal"
+                        data-bs-target="#privacyPolicyModal">
+                        Privacy Policy
+                    </a>
                     <a href="#" class="text-light text-decoration-none">Terms of Service</a>
                 </div>
             </div>
         </div>
     </footer>
-
+    <!-- Privacy Policy Modal -->
+    <div class="modal fade" id="privacyPolicyModal" tabindex="-1" aria-labelledby="privacyPolicyModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="privacyPolicyModalLabel">Privacy Policy</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">                
+                    <p>This Privacy Policy describes how we collect, use, and protect the information you provide when using our
+                        website.</p>
+                
+                    <h6>1. Information We Collect</h6>
+                    <p>We may collect basic information such as your name and email address when you contact us or submit a form. This
+                        website does not collect personal data beyond what is voluntarily provided by the user.</p>
+                
+                    <h6>2. How We Use Your Information</h6>
+                    <p>Any information collected is used solely to respond to inquiries or to provide requested services. We do not
+                        share your personal data with third parties.</p>
+                
+                    <h6>3. Cookies</h6>
+                    <p>This site may use cookies to improve user experience and monitor basic analytics. You can disable cookies in your
+                        browser settings.</p>
+                
+                    <h6>4. Data Security</h6>
+                    <p>We take reasonable steps to protect your information, but please note that no method of transmission over the
+                        internet is completely secure.</p>
+                
+                    <h6>5. Your Rights</h6>
+                    <p>You have the right to request access to, correction of, or deletion of any personal data we may hold about you.
+                    </p>
+                
+                    <h6>6. Contact Us</h6>
+                    <p>If you have any questions about this Privacy Policy, please contact us at info@example.com.</p>
+                
+                    <p><em>This privacy policy is a mockup created for a student project and is not legally binding.</em></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/scripts.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
