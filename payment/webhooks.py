@@ -4,6 +4,7 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from orders.models import Order
+from .tasks import payment_completed
 
 logger = logging.getLogger(__name__)
 
@@ -42,12 +43,17 @@ def stripe_webhook(request):
         try:
             order = Order.objects.get(id=session.get('client_reference_id'))
         except Order.DoesNotExist:
-            logger.error("Order not found for ID: %s", session.get('client_reference_id'))
+            logger.error(
+                "Order not found for ID: %s",
+                session.get('client_reference_id')
+                )
             return HttpResponse(status=404)
 
         order.paid = True
         order.stripe_id = session.get('payment_intent')
         order.save()
+        # launch asynchronous task
+        payment_completed.delay(order.id)
         logger.info("Order %s marked as paid", order.id)
 
     return HttpResponse(status=200)
