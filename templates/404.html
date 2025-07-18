@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Page Not Found{% endblock %}
+
+{% block content %}
+<div class="login-container text-center">
+    <h1 class="auth-header">404</h1>
+    <h2 class="auth-header">Page Not Found</h2>
+    <p class="text-center w-100" style="margin: 0 auto;">
+        Sorry, the page you're looking for doesn't exist.
+    </p>
+    <div class="d-flex justify-content-center gap-2 mt-3">
+        <a href="/" class="btn btn-primary">Go Home</a>
+        <a href="javascript:history.back()" class="btn btn-secondary">Go Back</a>
+    </div>
+</div>
+{% endblock %}
