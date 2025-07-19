@@ -1,11 +1,11 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}My shop{% endblock %}</title>
+    <title>{% block title %}WebDev4U{% endblock %}</title>
 
     <script src="https://kit.fontawesome.com/a7aea892be.js" crossorigin="anonymous"></script>
 
@@ -70,7 +70,7 @@
 
         {% if show_hero_text %}
         <div class="hero-text">
-            <h1>{{ hero_title|default:"Welcome to My Shop" }}</h1>
+            <h1>{{ hero_title|default:"Welcome to WebDev4U" }}</h1>
             <p>{{ hero_subtitle|default:"Let's create something great!" }}</p>
         </div>
         {% endif %}
