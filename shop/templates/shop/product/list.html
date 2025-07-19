@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_filters %}
 
 {% block title %}
     Products
@@ -29,9 +30,9 @@
                     </h5>
                     <p class="card-text flex-grow-1">
                         {% if product.description %}
-                            {{ product.description|truncatewords:30 }}
+                        {{ product.description|truncate_before:"Includes" }}
                         {% else %}
-                            No description available.
+                        No description available.
                         {% endif %}
                     </p>
                     <div class="d-flex justify-content-between align-items-center mt-auto">
