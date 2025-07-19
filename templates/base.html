@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}WebDev4U{% endblock %}</title>
 
@@ -27,6 +27,12 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarAuth">
                 <!-- User auth dropdown -->
                 <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+                            href="{% url 'shop:product_list' %}">
+                            Home
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}"
                             href="{% url 'pages:about' %}">
@@ -64,8 +70,7 @@
         <img src="{{ hero_image }}" alt="Hero image" class="img-fluid w-100" />
         {% endif %}
         {% else %}
-        <img src="{% static 'images/rishi--fiCYNV51m4-unsplash.jpg' %}" alt="Default Hero"
-            class="img-fluid w-100" />
+        <img src="{% static 'images/rishi--fiCYNV51m4-unsplash.jpg' %}" alt="Default Hero" class="img-fluid w-100" />
         {% endif %}
 
         {% if show_hero_text %}
@@ -95,8 +100,7 @@
                         <li><a href="/" class="text-light text-decoration-none">Home</a></li>
                         <li><a href="{% url 'shop:custom_package_request' %}"
                                 class="text-light text-decoration-none">Custom Package</a></li>
-                        <li><a href="{% url 'pages:about' %}" 
-                                class="text-light text-decoration-none">About</a></li>
+                        <li><a href="{% url 'pages:about' %}" class="text-light text-decoration-none">About</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4 mb-3">
@@ -144,34 +148,41 @@
                     <h5 class="modal-title" id="privacyPolicyModalLabel">Privacy Policy</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">                
-                    <p>This Privacy Policy describes how we collect, use, and protect the information you provide when using our
+                <div class="modal-body">
+                    <p>This Privacy Policy describes how we collect, use, and protect the information you provide when
+                        using our
                         website.</p>
-                
+
                     <h6>1. Information We Collect</h6>
-                    <p>We may collect basic information such as your name and email address when you contact us or submit a form. This
+                    <p>We may collect basic information such as your name and email address when you contact us or
+                        submit a form. This
                         website does not collect personal data beyond what is voluntarily provided by the user.</p>
-                
+
                     <h6>2. How We Use Your Information</h6>
-                    <p>Any information collected is used solely to respond to inquiries or to provide requested services. We do not
+                    <p>Any information collected is used solely to respond to inquiries or to provide requested
+                        services. We do not
                         share your personal data with third parties.</p>
-                
+
                     <h6>3. Cookies</h6>
-                    <p>This site may use cookies to improve user experience and monitor basic analytics. You can disable cookies in your
+                    <p>This site may use cookies to improve user experience and monitor basic analytics. You can disable
+                        cookies in your
                         browser settings.</p>
-                
+
                     <h6>4. Data Security</h6>
-                    <p>We take reasonable steps to protect your information, but please note that no method of transmission over the
+                    <p>We take reasonable steps to protect your information, but please note that no method of
+                        transmission over the
                         internet is completely secure.</p>
-                
+
                     <h6>5. Your Rights</h6>
-                    <p>You have the right to request access to, correction of, or deletion of any personal data we may hold about you.
+                    <p>You have the right to request access to, correction of, or deletion of any personal data we may
+                        hold about you.
                     </p>
-                
+
                     <h6>6. Contact Us</h6>
                     <p>If you have any questions about this Privacy Policy, please contact us at info@example.com.</p>
-                
-                    <p><em>This privacy policy is a mockup created for a student project and is not legally binding.</em></p>
+
+                    <p><em>This privacy policy is a mockup created for a student project and is not legally
+                            binding.</em></p>
                 </div>
             </div>
         </div>
