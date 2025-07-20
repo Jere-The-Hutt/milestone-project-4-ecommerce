@@ -13,6 +13,10 @@ from django.template.loader import render_to_string
 
 @login_required
 def order_create(request, product_id):
+    """
+    Handle order creation for a specific product.
+    Saves order info and stores order ID in session.
+    """
     product = get_object_or_404(Product, id=product_id)
 
     if request.method == 'POST':
@@ -37,12 +41,18 @@ def order_create(request, product_id):
 
 @login_required
 def order_history(request, order_id):
+    """
+    Show a specific past order belonging to the current user.
+    """
     order = get_object_or_404(Order, id=order_id, user=request.user)
     return render(request, 'orders/order/history.html', {'order': order})
 
 
 @staff_member_required
 def admin_order_detail(request, order_id):
+    """
+    Display full order details for staff members in the admin dashboard.
+    """
     order = get_object_or_404(Order, id=order_id)
     return render(
         request, 'orders/order/detail.html', {'order': order}
@@ -51,6 +61,9 @@ def admin_order_detail(request, order_id):
 
 @staff_member_required
 def admin_order_pdf(request, order_id):
+    """
+    Generate and return a PDF invoice for an order (admin only).
+    """
     order = get_object_or_404(Order, id=order_id)
     html = render_to_string('orders/order/pdf.html', {'order': order})
     response = HttpResponse(content_type='application/pdf')

@@ -5,6 +5,10 @@ from shop.models import Product
 
 
 class Order(models.Model):
+    """
+    Represents a customer's order for a single product.
+    Stores contact details, payment status, and order metadata.
+    """
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -45,12 +49,15 @@ class Order(models.Model):
         ]
 
     def __str__(self):
+        """Return a readable string representation of the order."""
         return f'Order {self.id} - {self.product.name}'
 
     def get_total_cost(self):
+        """Return the total cost of the order."""
         return self.product.price
 
     def get_stripe_url(self):
+        """Return the Stripe dashboard URL for this payment."""
         if not self.stripe_id:
             # no payment associated
             return ''
@@ -64,4 +71,5 @@ class Order(models.Model):
 
     @property
     def get_full_name(self):
+        """Return the customer's full name."""
         return f"{self.first_name} {self.last_name}"

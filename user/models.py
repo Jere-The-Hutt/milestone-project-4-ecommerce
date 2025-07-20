@@ -5,6 +5,9 @@ from django.dispatch import receiver
 
 
 class UserProfile(models.Model):
+    """
+    Extends the built-in User model with additional profile fields.
+    """
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -31,6 +34,7 @@ class UserProfile(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
+        """Return a readable string representation of the user profile."""
         return f"{self.user.username}'s Profile"
 
     class Meta:
@@ -41,10 +45,17 @@ class UserProfile(models.Model):
 # Automatically create UserProfile when User is created
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
+    """
+    Signal to automatically create a UserProfile when a new User is created.
+    """
     if created:
         UserProfile.objects.create(user=instance)
 
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
+    """
+    Signal to automatically save the associated
+    UserProfile when the User is saved.
+    """
     instance.profile.save()

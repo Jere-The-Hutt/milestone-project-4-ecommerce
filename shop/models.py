@@ -3,6 +3,7 @@ from django.urls import reverse
 
 
 class Product(models.Model):
+    """A product available for purchase in the shop."""
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200)
     image = models.ImageField(
@@ -31,6 +32,7 @@ class Product(models.Model):
 
 
 class CustomPackageRequest(models.Model):
+    """A customer request for a custom package or service."""
     name = models.CharField(max_length=100)
     email = models.EmailField()
     phone = models.CharField(max_length=20, blank=True)

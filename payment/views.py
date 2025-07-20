@@ -11,6 +11,7 @@ stripe.api_version = settings.STRIPE_API_VERSION
 
 
 def payment_process(request):
+    """Process payment for an order using Stripe Checkout."""
     order_id = request.session.get('order_id')
     order = get_object_or_404(Order, id=order_id)
     product = order.product
@@ -46,8 +47,10 @@ def payment_process(request):
 
 
 def payment_completed(request):
+    """Display payment success page."""
     return render(request, 'payment/completed.html')
 
 
 def payment_canceled(request):
+    """Display payment cancellation page."""
     return render(request, 'payment/canceled.html')

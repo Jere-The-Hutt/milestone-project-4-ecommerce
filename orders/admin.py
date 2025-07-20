@@ -8,6 +8,9 @@ from django.http import HttpResponse
 
 
 def order_pdf(obj):
+    """
+    Return a link to generate a PDF invoice for the order.
+    """
     url = reverse('orders:admin_order_pdf', args=[obj.id])
     return mark_safe(f'<a href="{url}">PDF</a>')
 
@@ -16,6 +19,9 @@ order_pdf.short_description = 'Invoice'
 
 
 def order_payment(obj):
+    """
+    Return a link to the Stripe dashboard for the given order.
+    """
     url = obj.get_stripe_url()
     if obj.stripe_id:
         html = f'<a href="{url}" target="_blank">{obj.stripe_id}</a>'
@@ -27,6 +33,9 @@ order_payment.short_description = 'Stripe payment'
 
 
 def export_to_csv(modeladmin, request, queryset):
+    """
+    Export selected orders to a downloadable CSV file.
+    """
     opts = modeladmin.model._meta
     content_disposition = (
         f'attachment; filename={opts.verbose_name}.csv'
@@ -57,12 +66,18 @@ export_to_csv.short_description = 'Export to CSV'
 
 
 def order_detail(obj):
+    """
+    Return a link to the order detail page in the admin interface.
+    """
     url = reverse('orders:admin_order_detail', args=[obj.id])
     return mark_safe(f'<a href="{url}">View</a>')
 
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
+    """
+    Custom admin interface for the Order model.
+    """
     list_display = [
         'id',
         'first_name',

@@ -4,6 +4,7 @@ from .forms import CustomPackageRequestForm
 
 
 def product_list(request):
+    """Display a list of available products."""
     products = Product.objects.filter(available=True)
     return render(
         request,
@@ -18,6 +19,7 @@ def product_list(request):
 
 
 def product_detail(request, id, slug):
+    """Display detailed view of a specific product."""
     product = get_object_or_404(Product, id=id, slug=slug, available=True)
 
     hero_image = product.image.url if product.image else None
@@ -33,6 +35,7 @@ def product_detail(request, id, slug):
 
 
 def custom_package_request(request):
+    """Handle custom package request form submission."""
     if request.method == 'POST':
         form = CustomPackageRequestForm(request.POST)
         if form.is_valid():
@@ -55,6 +58,7 @@ def custom_package_request(request):
 
 
 def custom_request_thanks(request):
+    """Display thank you page after custom request submission."""
     return render(
         request,
         'shop/custom_request_thanks.html',

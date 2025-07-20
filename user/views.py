@@ -8,7 +8,7 @@ from orders.models import Order
 
 @login_required
 def profile_view(request):
-    """Display user profile"""
+    """Show the user's profile and order history."""
     try:
         profile = request.user.profile
     except UserProfile.DoesNotExist:
@@ -26,7 +26,7 @@ def profile_view(request):
 
 @login_required
 def profile_edit(request):
-    """Edit user profile"""
+    """Let the user edit their profile and account info."""
     try:
         profile = request.user.profile
     except UserProfile.DoesNotExist:

@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 
 @csrf_exempt
 def stripe_webhook(request):
+    """Handle Stripe webhook events for completed checkout sessions."""
     payload = request.body
     sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
     event = None

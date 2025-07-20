@@ -4,6 +4,7 @@ from .models import Product, CustomPackageRequest
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
+    """Admin configuration for the Product model."""
     list_display = [
         'name',
         'slug',
@@ -19,6 +20,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(CustomPackageRequest)
 class CustomPackageRequestAdmin(admin.ModelAdmin):
+    """Admin configuration for the CustomPackageRequest model."""
     list_display = ['name', 'email', 'message', 'created']
     list_filter = ['created']
     search_fields = ['name', 'email', 'subject']
