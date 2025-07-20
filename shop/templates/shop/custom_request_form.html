@@ -10,6 +10,6 @@
 <form method="post" class="order-form">
     {% csrf_token %}
     {{ form.as_p }}
-    <p><input type="submit" value="Send Request"></p>
+    <p><input type="submit" class="btn btn-primary" value="Send Request"></p>
 </form>
 {% endblock %}

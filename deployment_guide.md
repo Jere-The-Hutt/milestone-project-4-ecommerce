@@ -9,6 +9,16 @@
 - Docker Desktop
 - Git
 - PostgreSQL (for local development)
+- Visual Studio Code (recommended)
+
+### System Dependencies for PDF Generation
+The project uses **WeasyPrint** for PDF generation, which requires specific system libraries:
+- `libpango1.0-0`, `libpangocairo-1.0-0`, `libcairo2` (rendering)
+- `libjpeg-dev`, `libpng-dev` (image processing)
+- `libffi-dev`, `libglib2.0-dev` (core libraries)
+- `build-essential` (compilation tools)
+
+**Note**: These dependencies are automatically handled by Docker, but would need manual installation for local Python development.
 
 ### Installation Verification
 ```powershell
@@ -27,12 +37,14 @@ cd milestone-project-4-ecommerce
 ```
 
 ### 2. Setup Environment Variables
+You should already have an `env.py` file in your project root. If you need to create a separate local configuration, you can copy it:
+
 ```powershell
-# Copy environment template
+# Optional: Create a separate local environment file
 Copy-Item env.py env_local.py
 ```
 
-Edit `env_local.py`:
+Your `env.py` file should contain:
 ```python
 import os
 
@@ -59,11 +71,29 @@ os.environ['EMAIL_HOST_PASSWORD'] = 'your-app-password'  # Gmail App Password
 os.environ['DEFAULT_FROM_EMAIL'] = 'WebDev4U <your-email@gmail.com>'
 ```
 
-## Deployment Options
+## Local Development Requirements
 
-### Option 1: Docker Deployment (Recommended)
+**⚠️ IMPORTANT**: This project requires Docker Compose for local development due to:
+- **PDF generation** using WeasyPrint (requires system libraries)
+- **Custom admin order views** that generate PDF reports
+- **Background task processing** with Celery workers
+- **Message broker** (RabbitMQ) for task queuing
+- **Service coordination** between Django, Celery, and RabbitMQ
+
+Running `python manage.py runserver` alone **will not work properly** without:
+1. WeasyPrint system dependencies (libpango, libcairo, etc.)
+2. RabbitMQ message broker
+3. Celery worker process
+
+### Docker Services Architecture
+The project runs three interconnected services:
+- **django**: Main web application (Python 3.12-slim, port 8000)
+- **celery**: Background task worker for PDF generation
+- **rabbitmq**: Message broker with management UI (ports 5672, 15672)
+
+### Docker Deployment (Required)
 ```powershell
-# Build and start services
+# Build and start all required services
 docker-compose build
 docker-compose up -d
 
@@ -76,17 +106,25 @@ docker-compose exec django python manage.py collectstatic --noinput
 docker-compose logs -f
 ```
 
-### Option 2: Virtual Environment
+### Alternative: Virtual Environment (Limited Functionality)
 ```powershell
-# Create and activate virtual environment
+# ⚠️ WARNING: This setup will have limited functionality
+# PDF generation requires WeasyPrint system dependencies
+# Background tasks require RabbitMQ and Celery worker
+
+# On Windows, you would need to manually install:
+# - Visual Studio Build Tools
+# - GTK+ libraries for WeasyPrint
+# - RabbitMQ server
+
 python -m venv .venv
 .venv\Scripts\activate
-
-# Install dependencies and setup
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
+
+# Note: Admin order PDF generation will likely fail
 ```
 
 ### Access Points
@@ -94,16 +132,33 @@ python manage.py runserver
 - **Admin Panel**: http://localhost:8000/admin/
 - **RabbitMQ Management**: http://localhost:15672 (guest/guest)
 
+### Service Status Check
+```powershell
+# Check all services are running
+docker-compose ps
+
+# Should show:
+# - django (running on port 8000)
+# - celery (worker process)
+# - rabbitmq (running on ports 5672, 15672)
+```
+
 ## Testing & Verification
 
 ### Service Health Check
 ```powershell
-# Check Docker services
+# Check all Docker services are running
 docker-compose ps
 
 # Test application endpoints
 curl http://localhost:8000
 curl http://localhost:8000/admin/
+
+# Check Celery worker is processing tasks
+docker-compose logs celery
+
+# Access RabbitMQ management interface
+# Go to http://localhost:15672 (login: guest/guest)
 ```
 
 ### Payment Testing (Stripe Test Mode)
@@ -113,45 +168,129 @@ curl http://localhost:8000/admin/
 
 Use any future expiry date and any 3-digit CVC.
 
-## Production Deployment (Heroku)
+## Production Deployment (Heroku Dashboard)
 
 ### Prerequisites
-- Heroku CLI installed
-- Heroku account with app created
+- Heroku account (sign up at https://heroku.com)
+- GitHub account with your repository
+- All project files committed and pushed to GitHub
 
-### Environment Setup
-```powershell
-# Login to Heroku
-heroku login
+### Step 1: Create Heroku App
+1. Login to your Heroku Dashboard (https://dashboard.heroku.com)
+2. Click **"New"** → **"Create new app"**
+3. Enter app name (e.g., `your-project-name`)
+4. Select region closest to your target users
+5. Click **"Create app"**
 
-# Set production environment variables
-heroku config:set DEBUG=False
-heroku config:set SECRET_KEY="your-production-secret-key"
-heroku config:set DATABASE_URL="your-production-database-url"
-heroku config:set CLOUDINARY_CLOUD_NAME="your-cloud-name"
-heroku config:set CLOUDINARY_API_KEY="your-api-key"
-heroku config:set CLOUDINARY_API_SECRET="your-api-secret"
-heroku config:set STRIPE_PUBLISHABLE_KEY="pk_live_your_live_key"
-heroku config:set STRIPE_SECRET_KEY="sk_live_your_live_key"
-heroku config:set EMAIL_HOST_USER="your-email@gmail.com"
-heroku config:set EMAIL_HOST_PASSWORD="your-app-password"
+### Step 2: Configure Environment Variables
+In your Heroku app dashboard:
 
-# Deploy application
-git push heroku main
+1. Go to **Settings** tab
+2. Click **"Reveal Config Vars"**
+3. Add the following key-value pairs:
 
-# Setup database
-heroku run python manage.py migrate
-heroku run python manage.py createsuperuser
-```
+| Key | Value |
+|-----|-------|
+| `DEBUG` | `False` |
+| `SECRET_KEY` | `your-production-secret-key` |
+| `DATABASE_URL` | `your-production-database-url` |
+| `CLOUDINARY_CLOUD_NAME` | `your-cloud-name` |
+| `CLOUDINARY_API_KEY` | `your-api-key` |
+| `CLOUDINARY_API_SECRET` | `your-api-secret` |
+| `STRIPE_PUBLISHABLE_KEY` | `pk_live_your_live_key` |
+| `STRIPE_SECRET_KEY` | `sk_live_your_live_key` |
+| `STRIPE_WEBHOOK_SECRET` | `whsec_your_webhook_secret` |
+| `EMAIL_HOST_USER` | `your-email@gmail.com` |
+| `EMAIL_HOST_PASSWORD` | `your-app-password` |
+| `DEFAULT_FROM_EMAIL` | `WebDev4U <your-email@gmail.com>` |
 
-### Background Tasks (if using Celery)
-```powershell
-# Add CloudAMQP for RabbitMQ
-heroku addons:create cloudamqp:lemur
+### Step 3: Add Required Add-ons
+1. **Database**: In **Resources** tab, search for **"Heroku Postgres"**
+   - Select a plan (Mini $5/month or free alternatives)
+   - Click **"Submit Order Form"**
+   - The `DATABASE_URL` will be automatically added to Config Vars
 
-# Scale worker dynos
-heroku ps:scale worker=1
-```
+2. **Message Broker**: Search for **"CloudAMQP"**
+   - Select **"CloudAMQP"** add-on
+   - Choose **"Little Lemur"** plan (free)
+   - Click **"Submit Order Form"**
+   - The `CLOUDAMQP_URL` will be automatically added to Config Vars
+
+**Note**: No additional buildpacks are required - Heroku's default Python buildpack handles WeasyPrint dependencies automatically.
+
+### Step 4: Connect GitHub Repository
+1. Go to **Deploy** tab
+2. In **Deployment method**, select **"GitHub"**
+3. Click **"Connect to GitHub"** and authorize if prompted
+4. Search for your repository name
+5. Click **"Connect"** next to your repository
+
+### Step 5: Deploy Application
+**Option A: Automatic Deployment**
+1. Scroll to **"Automatic deploys"**
+2. Select the branch to deploy (usually `main`)
+3. Click **"Enable Automatic Deploys"**
+4. Click **"Deploy Branch"** for initial deployment
+
+**Option B: Manual Deployment**
+1. Scroll to **"Manual deploy"**
+2. Select the branch to deploy
+3. Click **"Deploy Branch"**
+
+### Step 6: Setup Database and Admin
+After successful deployment:
+
+1. Go to **More** menu → **"Run console"**
+2. Run database migrations:
+   ```bash
+   python manage.py migrate
+   ```
+3. Create superuser account:
+   ```bash
+   python manage.py createsuperuser
+   ```
+4. Collect static files (if needed):
+   ```bash
+   python manage.py collectstatic --noinput
+   ```
+
+### Step 7: Configure Stripe Webhooks (Production)
+1. Login to your Stripe Dashboard
+2. Go to **Developers** → **Webhooks**
+3. Click **"Add endpoint"**
+4. Enter endpoint URL: `https://your-app-name.herokuapp.com/checkout/wh/`
+5. Select events to send
+6. Copy the webhook signing secret
+7. Add it to Heroku Config Vars as `STRIPE_WEBHOOK_SECRET`
+
+### Step 8: Enable Worker Dyno for Background Tasks
+1. Go to **Resources** tab
+2. You should see both:
+   - **web** dyno (automatically enabled)
+   - **worker** dyno (needs to be enabled)
+3. Click the toggle/edit button next to **worker**
+4. Scale it to **1 dyno**
+5. Click **"Confirm"**
+
+This enables the Celery worker process for PDF generation and other background tasks.
+
+## Monitoring & Maintenance
+
+### View Application Logs
+1. In your Heroku app dashboard
+2. Click **"More"** → **"View logs"**
+3. For real-time logs, use the web terminal or enable log streaming
+
+### Update Application
+1. Push changes to your GitHub repository
+2. If automatic deploys are enabled, deployment happens automatically
+3. For manual deployment, go to **Deploy** tab → **"Deploy Branch"**
+
+### Scale Dynos (if needed)
+1. Go to **Resources** tab
+2. Click the edit icon next to **"web"**
+3. Adjust the dyno slider
+4. Click **"Confirm"**
 
 ## Common Issues & Solutions
 
@@ -174,9 +313,15 @@ docker-compose exec django python manage.py check --database default
 docker-compose exec django python manage.py migrate
 ```
 
+### Heroku Deployment Issues
+1. **Build Fails**: Check build logs in Activity tab
+2. **App Crashes**: Check logs for error messages
+3. **Config Vars**: Ensure all environment variables are properly set
+4. **Static Files**: Make sure `DISABLE_COLLECTSTATIC=1` is NOT set in Config Vars
+
 ### Email/Payment Not Working
 ```powershell
-# Verify environment variables are loaded
+# For local testing - verify environment variables are loaded
 docker-compose exec django python manage.py shell
 # In shell: from django.conf import settings; print(settings.EMAIL_HOST_USER)
 
@@ -187,11 +332,11 @@ docker-compose exec django python manage.py shell
 
 ### Static Files Issues
 ```powershell
-# Recollect static files
+# For local development - recollect static files
 docker-compose exec django python manage.py collectstatic --noinput --clear
 ```
 
-### View Logs for Debugging
+### View Local Logs for Debugging
 ```powershell
 # View application logs
 docker-compose logs django
@@ -205,33 +350,46 @@ docker-compose logs
 
 ## Quick Reference
 
-### Full Local Deployment
+### Full Local Deployment (Required for Full Functionality)
 ```powershell
 # Clone and setup
 git clone https://github.com/Jere-The-Hutt/milestone-project-4-ecommerce.git
 cd milestone-project-4-ecommerce
-Copy-Item env.py env_local.py
-# Edit env_local.py with your credentials
+# Edit env.py with your credentials
 
-# Deploy with Docker
+# Deploy with Docker (required for PDF generation and admin features)
 docker-compose build
 docker-compose up -d
 docker-compose exec django python manage.py migrate
 docker-compose exec django python manage.py createsuperuser
 
 # Access application: http://localhost:8000
+# Admin with PDF features: http://localhost:8000/admin/
 ```
 
-### Production Deployment to Heroku
+### Production Deployment Summary
+1. Create Heroku app via Dashboard
+2. Set all Config Vars (environment variables)
+3. Connect GitHub repository
+4. Enable automatic or manual deployment
+5. Run database setup commands via console
+6. Configure Stripe webhooks for production URL
+
+### VSCode + PowerShell Development Setup
 ```powershell
-# Set environment variables and deploy
-heroku config:set DEBUG=False SECRET_KEY="your-key" DATABASE_URL="your-db-url"
-git push heroku main
-heroku run python manage.py migrate
-heroku run python manage.py createsuperuser
+# Open project in VSCode
+code .
+
+# Use integrated PowerShell terminal (Ctrl + `)
+# Activate virtual environment if using Option 2
+.venv\Scripts\activate
+
+# Run development server
+python manage.py runserver
 ```
 
 ---
 
 **Repository**: https://github.com/Jere-The-Hutt/milestone-project-4-ecommerce  
-**Support**: hallu.huttunen@gmail.com
+**Live Application**: https://milestone-project-4-ecommerce-479bb413016e.herokuapp.com/  
+**Support**: jerethehutt@gmail.com
