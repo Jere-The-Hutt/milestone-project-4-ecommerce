@@ -28,6 +28,10 @@
 
   ![About](static/images/ms4-webdev4u-about.png)
 
+### **404**
+
+  ![404](static/images/ms4-webdev4u-404.png)
+
 ### **Custom request**
 
   ![Custom request form](static/images/ms4-webdev4u-custom.png)
@@ -51,6 +55,10 @@
 ### **Checkout success**
 
   ![Checkout success](static/images/ms4-webdev4u-checkout-success.png)
+
+### **Checkout cancelled**
+
+  ![Checkout cancelled](static/images/ms4-webdev4u-cancelled.png)
 
 ## Django Admin
 
