@@ -23,7 +23,7 @@
         <!-- User Info -->
         <div class="col-12 col-md-9 order-2 order-md-1">
             <h1>Welcome, {{ user.username }}</h1>
-
+        
             <div class="mt-4">
                 <p><strong>Email:</strong> {{ user.email }}</p>
                 <p><strong>Name:</strong> {{ user.get_full_name|default:"Not provided" }}</p>
@@ -37,8 +37,32 @@
                     {% endif %}
                 </p>
                 <p><strong>Bio:</strong> {{ user.profile.bio|default:"No bio provided"|linebreaks }}</p>
-
+        
                 <a href="{% url 'profile_edit' %}" class="btn btn-primary mt-3">Edit Profile</a>
+                <a data-bs-toggle="modal" data-bs-target="#deleteAccountModal" class="btn btn-danger mt-3">Delete Account</a>
+                <!-- Delete Account Modal -->
+                <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger text-white">
+                                <h5 class="modal-title" id="deleteAccountModalLabel">Confirm Account Deletion</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <form method="POST" action="{% url 'delete_account' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Yes, delete my account</button>
+                                </form>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

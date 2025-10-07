@@ -57,3 +57,13 @@ def profile_edit(request):
         'profile_form': profile_form,
     }
     return render(request, 'user/profile_edit.html', context)
+
+
+@login_required
+def delete_account(request):
+    if request.method == "POST":
+        user = request.user
+        user.delete()
+        messages.success(request, "Your account has been permanently deleted.")
+        return redirect('shop:product_list')
+    return redirect('account_profile')
