@@ -4,6 +4,7 @@ from django.contrib import messages
 from .forms import UserForm, UserProfileForm
 from .models import UserProfile
 from orders.models import Order
+from .tasks import send_account_deleted_email
 
 
 @login_required
@@ -63,7 +64,12 @@ def profile_edit(request):
 def delete_account(request):
     if request.method == "POST":
         user = request.user
+        user_email = user.email
+
+        send_account_deleted_email.delay(user_email)
+
         user.delete()
         messages.success(request, "Your account has been permanently deleted.")
         return redirect('shop:product_list')
+
     return redirect('account_profile')
