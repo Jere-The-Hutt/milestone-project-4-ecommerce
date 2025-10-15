@@ -9,6 +9,7 @@ import weasyprint
 from django.contrib.staticfiles import finders
 from django.http import HttpResponse
 from django.template.loader import render_to_string
+from payment.utils import generate_order_pdf
 
 
 @login_required
@@ -57,6 +58,17 @@ def admin_order_detail(request, order_id):
     return render(
         request, 'orders/order/detail.html', {'order': order}
         )
+
+
+@login_required
+def download_invoice(request, order_id):
+    """Allow the user to download a PDF invoice for their own order."""
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    pdf = generate_order_pdf(order)
+
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename=order_{order.id}.pdf'  # noqa
+    return response
 
 
 @staff_member_required
